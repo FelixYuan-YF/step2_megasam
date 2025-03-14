@@ -17,7 +17,7 @@ or
 
 ## Instructions for installing dependencies
 
-### CUDA version change
+### CUDA version change(if not 11.8)
 [nju-3dv server settings](https://stingy-basin-115.notion.site/NJU-3DV-d9f0de862cbd4b9f9c12b5474cac76e1)
 
 
