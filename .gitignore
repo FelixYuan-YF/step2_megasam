@@ -1,0 +1,17 @@
+# dir
+outputs/
+outputs_303/
+data_videos/
+checkpoints/*
+!checkpoints/megasam_final.pth
+DROID-SLAM/
+.vscode/
+
+# files
+data/*
+*.log
+*.txt
+*.bz2
+*.zip
+*.pth
+*.ipynb
