@@ -65,7 +65,7 @@ or
 
 ### Running
 1. extract video_samples to data\ : \
-    `python extract_vid.py /path/to/video.mp4 -o data/seq_name -i 6`
+    `bash extract_vid.sh`
 2. batch running on several images seqs (change evalset seqs first) :\
    `bash run run_batch.sh`
 ### Contact
