@@ -4,7 +4,7 @@ outputs_303/
 data_videos/
 checkpoints/*
 !checkpoints/megasam_final.pth
-# DROID-SLAM/
+DROID-SLAM/
 .vscode/
 
 # files
