@@ -45,7 +45,10 @@ or
 1.  To install main libraries, run: \
     `conda env create -f environment.yml`
 
-2.  To install xformers for UniDepth model, follow the instructions from
+2.  pytorch: \
+    `pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118`
+
+3.  To install xformers for UniDepth model, follow the instructions from
     https://github.com/facebookresearch/xformers. If you encounter any
     installation issue, we suggest installing it from a prebuilt file. For
     example, for Python 3.10+Cuda11.8+Pytorch2.0.1, run: \
@@ -53,10 +56,10 @@ or
 
     `conda install xformers-0.0.22.post7-py310_cu11.8.0_pyt2.0.1.tar.bz2`
 
-3.  Compile the extensions for the camera tracking module: \
+4.  Compile the extensions for the camera tracking module: \
     `cd base; python setup.py install`
 
-4. viser: \
+5. viser: \
    `cd viser; pip install -e . `
 
 ### Downloading pretrained checkpoints
@@ -65,7 +68,7 @@ or
 
 ### Running
 1. extract video_samples to data\ : \
-    `python extract_vid.py /path/to/video.mp4 -o data/seq_name -i 6`
+    `bash extract_vid.sh`
 2. batch running on several images seqs (change evalset seqs first) :\
    `bash run run_batch.sh`
 ### Contact
