@@ -17,6 +17,29 @@ or
 
 ## Instructions for installing dependencies
 
+### CUDA version change
+[nju-3dv server settings](https://stingy-basin-115.notion.site/NJU-3DV-d9f0de862cbd4b9f9c12b5474cac76e1)
+
+
+```python 
+    # 进入用户目录
+    cd /home/[username]
+    # 创建tmp文件夹
+    mkdir tmp
+    # 创建CUDA文件夹
+    mkdir cuda
+    cd cuda
+
+    # 下载自己所需版本的CUDA安装包
+    wget https://developer.download.nvidia.com/compute/cuda/11.8.0/local_installers/cuda_11.8.0_520.61.05_linux.run
+
+    # 修改权限为可执行
+    chmod 755 cuda_11.8.0_520.61.05_linux.run
+
+    # 无需root权限安装CUDA
+    sh cuda_11.8.0_520.61.05_linux.run --tmpdir=/home/[username]/tmp
+```
+
 ### Python Environment
 
 1.  To install main libraries, run: \
