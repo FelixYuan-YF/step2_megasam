@@ -8,7 +8,7 @@
 
 
 Make sure to clone the repository with the submodules by using:
-`git clone --recursive git@github.com:mega-sam/mega-sam.git`
+`git clone --recursive git@github.com:oiiiwjh/megasam-test.git`
 
 or 
 
