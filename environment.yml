@@ -243,5 +243,4 @@ dependencies:
       - xatlas==0.0.9
       - xxhash==3.5.0
       - yourdfpy==0.0.57
-      - torch-scatter==2.1.2
 prefix: /home/wjh/miniconda3/envs/mega_sam
