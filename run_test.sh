@@ -18,37 +18,28 @@ measure_time() {
     echo -e "${yellow}Duration: $((end_time - start_time)) seconds${no_color}"
     echo "---------------------------------------"
 }
-evalset=(
-  # # lady-running
-  # city_walk
-  # # flower
-  # forest_road
-  # park
-  # park_1
-  # room
-  # new vids
-  # -ZXPb2xG9mg__scene-10
-  # 3tiIryX0Mls__scene-8
-  # 3tiIryX0Mls__scene-10
-  # 3tiIryX0Mls__scene-40
-  # 3tiIryX0Mls__scene-372
-  # 8XJ7IYxNYqI__scene-8
-  # 8XJ7IYxNYqI__scene-32
-  # 773Qq6qG108__scene-5
-  # 773Qq6qG108__scene-97
-  # 773Qq6qG108__scene-126
-  # AH_c9U2pFQ8__scene-46
-  # AH_c9U2pFQ8__scene-12
-  # 3tiIryX0Mls__scene-69
-  # 3tiIryX0Mls__scene-124
-  # 3tiIryX0Mls__scene-301
 
-  _uxlg5ACiT4__scene-56
+evalset=(
+  test_video
 )
+
 WORK_DIR=$(pwd)
-DATA_DIR=vid/img
-OUTPUTS_DIR=vid/outputs
+VIDEO_DIR=test/videos
+DATA_DIR=test/imgs
+OUTPUTS_DIR=test/outputs
 CUDA_LIST=0
+
+# =======================================================
+# ------------------- Extract Videos --------------------
+# =======================================================
+# Extract videos into frames
+echo -e "\e[33mExtracting videos into frames\e[0m"
+for seq in ${evalset[@]}; do
+    echo 'Extracting video: ' $seq
+    python tools/extract_vid.py $VIDEO_DIR/$seq.mp4 \
+        -o $DATA_DIR/$seq -i 6
+done
+
 # =======================================================
 # ------------------- Depth Generation ------------------
 # =======================================================
