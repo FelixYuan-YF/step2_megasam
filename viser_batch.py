@@ -23,15 +23,9 @@ if __name__ == "__main__":
         # 'OFE5rR3ubWU__scene-94',
         # 'S6Eql9_pcOw__scene-126'
         # output
-        '3tiIryX0Mls__scene-124',
-        'city_walk',
-        'forest_road',
-        'park_1',
-        '773Qq6qG108__scene-97',
-        '8XJ7IYxNYqI__scene-8',
-        '3tiIryX0Mls__scene-372'
+        '_uxlg5ACiT4__scene-56'
     ]
-    outputs_dir = '/home/wjh/projects/mega-sam/outputs'
+    outputs_dir = 'vid/outputs'
     num_threads = len(ids)
 
     with ProcessPoolExecutor(max_workers=num_threads) as executor:

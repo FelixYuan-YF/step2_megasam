@@ -76,7 +76,7 @@ if __name__ == "__main__":
     print("Torch version:", torch.__version__)
     # model = UniDepthV1.from_pretrained("/home/wjh/projects/mega-sam/checkpoints/unimatch-v1")
     model = UniDepthV2.from_pretrained(
-        "/home/wjh/projects/mega-sam/checkpoints/unimatch")
+        "checkpoints/UniDepth")
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model = model.to(device)
     demo(model, args)

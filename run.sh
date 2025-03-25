@@ -53,25 +53,25 @@ CUDA_LIST=0
 # ------------------- Depth Generation ------------------
 # =======================================================
 # ----------------- Run Depth-Anything -----------------
-echo -e "\e[33mRunning Depth-Anything on evalset\e[0m"
-for seq in ${evalset[@]}; do
-  echo "Running Depth-Anything on $seq"
-  CUDA_VISIBLE_DEVICES=$CUDA_LIST python Depth-Anything/run_videos.py --encoder vitl \
-    --load-from checkpoints/Depth-Anything/depth_anything_v2_vitl.pth \
-    --img-path $DATA_DIR/$seq \
-    --outdir $OUTPUTS_DIR/$seq/depth-anything \
-    --save-numpy
-done
-# --------------------- Run UniDepth -------------------
-# export PYTHONPATH="${PYTHONPATH}:$(pwd)/UniDepth"
-# 考虑不使用 UniDepth 得到fov
-echo -e "\e[33mRunning UniDepth on evalset\e[0m"
-for seq in ${evalset[@]}; do
-  CUDA_VISIBLE_DEVICES=$CUDA_LIST python UniDepth/demo_mega-sam.py \
-    --scene-name $seq \
-    --img-path $DATA_DIR/$seq \
-    --outdir $OUTPUTS_DIR/$seq/unidepth
-done
+# echo -e "\e[33mRunning Depth-Anything on evalset\e[0m"
+# for seq in ${evalset[@]}; do
+#   echo "Running Depth-Anything on $seq"
+#   CUDA_VISIBLE_DEVICES=$CUDA_LIST python Depth-Anything/run_videos.py --encoder vitl \
+#     --load-from checkpoints/Depth-Anything/depth_anything_v2_vitl.pth \
+#     --img-path $DATA_DIR/$seq \
+#     --outdir $OUTPUTS_DIR/$seq/depth-anything \
+#     --save-numpy
+# done
+# # --------------------- Run UniDepth -------------------
+# # export PYTHONPATH="${PYTHONPATH}:$(pwd)/UniDepth"
+# # 考虑不使用 UniDepth 得到fov
+# echo -e "\e[33mRunning UniDepth on evalset\e[0m"
+# for seq in ${evalset[@]}; do
+#   CUDA_VISIBLE_DEVICES=$CUDA_LIST python UniDepth/demo_mega-sam.py \
+#     --scene-name $seq \
+#     --img-path $DATA_DIR/$seq \
+#     --outdir $OUTPUTS_DIR/$seq/unidepth
+# done
 # =======================================================
 # ----------------- Run Camera Tracking -----------------
 # =======================================================

@@ -24,7 +24,7 @@
 # pylint: disable=undefined-loop-variable
 
 import sys
-sys.path.append("/home/wjh/projects/mega-sam/base/droid_slam")
+sys.path.append("base/droid_slam")
 from droid import Droid
 import torch.nn.functional as F
 from lietorch import SE3
