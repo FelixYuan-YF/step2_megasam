@@ -1,129 +1,79 @@
 import argparse
-import glob
-import os
-# import matplotlib.pyplot as plt
-from timeit import default_timer as timer
 import cv2
-from depth_anything.dpt import DPT_DINOv2
-from depth_anything.util.transform import NormalizeImage, PrepareForNet, Resize
-import imageio
+import glob
+import matplotlib
 import numpy as np
+import os
 import torch
-import torch.nn.functional as F
-from torchvision.transforms import Compose
-from tqdm import tqdm
+
+from depth_anything_v2.dpt import DepthAnythingV2
+
+
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(description='Depth Anything V2')
+    
     parser.add_argument('--img-path', type=str)
+    parser.add_argument('--input-size', type=int, default=518)
     parser.add_argument('--outdir', type=str, default='./vis_depth')
-
-    parser.add_argument('--encoder', type=str, default='vitl')
-    parser.add_argument('--load-from', type=str, required=True)
-    # parser.add_argument('--max_size', type=int, required=True)
-
-    parser.add_argument(
-        '--localhub', dest='localhub', action='store_true', default=False
-    )
-
+    
+    parser.add_argument('--encoder', type=str, default='vitl', choices=['vits', 'vitb', 'vitl', 'vitg'])
+    parser.add_argument('--load-from', type=str, default='checkpoints/Depth-Anything/depth_anything_v2_vitl.pth')
+    
+    parser.add_argument('--save-numpy', dest='save_numpy', action='store_true', help='save the model raw output')
+    parser.add_argument('--pred-only', dest='pred_only', action='store_true', help='only display the prediction')
+    parser.add_argument('--grayscale', dest='grayscale', action='store_true', help='do not apply colorful palette')
+    
     args = parser.parse_args()
-
-    margin_width = 50
-    caption_height = 60
-
-    font = cv2.FONT_HERSHEY_SIMPLEX
-    font_scale = 1
-    font_thickness = 2
-    prt = f"start inference images from {args.img_path}"
-    print(f'\033[91m{prt}\033[0m')
-    assert args.encoder in ['vits', 'vitb', 'vitl']
-    if args.encoder == 'vits':
-        depth_anything = DPT_DINOv2(
-            encoder='vits',
-            features=64,
-            out_channels=[48, 96, 192, 384],
-            localhub=args.localhub,
-        ).cuda()
-    elif args.encoder == 'vitb':
-        depth_anything = DPT_DINOv2(
-            encoder='vitb',
-            features=128,
-            out_channels=[96, 192, 384, 768],
-            localhub=args.localhub,
-        ).cuda()
-    else:
-        depth_anything = DPT_DINOv2(
-            encoder='vitl',
-            features=256,
-            out_channels=[256, 512, 1024, 1024],
-            localhub=args.localhub,
-        ).cuda()
-
-    total_params = sum(param.numel() for param in depth_anything.parameters())
-    print('Total parameters: {:.2f}M'.format(total_params / 1e6))
-
-    depth_anything.load_state_dict(
-        torch.load(args.load_from, map_location='cpu'), strict=True
-    )
-    print(f'\033[91mLoaded weights from {args.load_from}\033[0m')
-    depth_anything.eval()
-
-    transform = Compose([
-        Resize(
-            width=768,
-            height=768,
-            resize_target=False,
-            keep_aspect_ratio=True,
-            ensure_multiple_of=14,
-            resize_method='upper_bound',
-            image_interpolation_method=cv2.INTER_CUBIC,
-        ),
-        NormalizeImage(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
-        PrepareForNet(),
-    ])
-
+    
+    DEVICE = 'cuda' if torch.cuda.is_available() else 'mps' if torch.backends.mps.is_available() else 'cpu'
+    
+    model_configs = {
+        'vits': {'encoder': 'vits', 'features': 64, 'out_channels': [48, 96, 192, 384]},
+        'vitb': {'encoder': 'vitb', 'features': 128, 'out_channels': [96, 192, 384, 768]},
+        'vitl': {'encoder': 'vitl', 'features': 256, 'out_channels': [256, 512, 1024, 1024]},
+        'vitg': {'encoder': 'vitg', 'features': 384, 'out_channels': [1536, 1536, 1536, 1536]}
+    }
+    
+    depth_anything = DepthAnythingV2(**model_configs[args.encoder])
+    depth_anything.load_state_dict(torch.load(args.load_from, map_location='cpu'))
+    depth_anything = depth_anything.to(DEVICE).eval()
+    
     if os.path.isfile(args.img_path):
         if args.img_path.endswith('txt'):
             with open(args.img_path, 'r') as f:
                 filenames = f.read().splitlines()
         else:
-            filenames = sorted(glob.glob(os.path.join(args.img_path, '*.png')))
+            filenames = [args.img_path]
+    else:
+        filenames = glob.glob(os.path.join(args.img_path, '**/*'), recursive=True)
+    
+    os.makedirs(args.outdir, exist_ok=True)
+    
+    cmap = matplotlib.colormaps.get_cmap('Spectral_r')
+    
+    for k, filename in enumerate(filenames):
+        print(f'Progress {k+1}/{len(filenames)}: {filename}')
+        
+        raw_image = cv2.imread(filename)
+        
+        depth = depth_anything.infer_image(raw_image, args.input_size)
 
-    filenames = sorted(glob.glob(os.path.join(args.img_path, '*.png')))
-    filenames += sorted(glob.glob(os.path.join(args.img_path, '*.jpg')))
-
-    final_results = []
-    for filename in tqdm(filenames):
-        raw_image = cv2.imread(filename)[..., :3]
-        image = cv2.cvtColor(raw_image, cv2.COLOR_BGR2RGB) / 255.0
-        h, w = image.shape[:2]
-
-        image = transform({'image': image})['image']
-        image = torch.from_numpy(image).unsqueeze(0).cuda()
-
-        # start = timer()
-        with torch.no_grad():
-            depth = depth_anything(image)
-        # end = timer()
-
-        depth = F.interpolate(
-            depth[None], (h, w), mode='bilinear', align_corners=False
-        )[0, 0]
-        depth_npy = np.float32(depth.cpu().numpy())
+        if args.save_numpy:
+            output_path = os.path.join(args.outdir, os.path.splitext(os.path.basename(filename))[0] + '.npy')
+            np.save(output_path, depth)
+        
         depth = (depth - depth.min()) / (depth.max() - depth.min()) * 255.0
-
-        depth = depth.cpu().numpy().astype(np.uint8)
-        depth_color = cv2.applyColorMap(depth, cv2.COLORMAP_INFERNO)
-
-        os.makedirs(os.path.join(args.outdir), exist_ok=True)
-        np.save(
-            os.path.join(args.outdir, filename.split('/')[-1][:-4] + '.npy'),
-            depth_npy,
-        )
-
-        split_region = (
-            np.ones((raw_image.shape[0], margin_width,
-                    3), dtype=np.uint8) * 255
-        )
-        combined_results = cv2.hconcat([raw_image, split_region, depth_color])
-
-        final_results.append(combined_results[..., ::-1])
+        depth = depth.astype(np.uint8)
+        
+        if args.grayscale:
+            depth = np.repeat(depth[..., np.newaxis], 3, axis=-1)
+        else:
+            depth = (cmap(depth)[:, :, :3] * 255)[:, :, ::-1].astype(np.uint8)
+        
+        if args.pred_only:
+            cv2.imwrite(os.path.join(args.outdir, os.path.splitext(os.path.basename(filename))[0] + '.png'), depth)
+        else:
+            split_region = np.ones((raw_image.shape[0], 50, 3), dtype=np.uint8) * 255
+            combined_result = cv2.hconcat([raw_image, split_region, depth])
+            
+            cv2.imwrite(os.path.join(args.outdir, os.path.splitext(os.path.basename(filename))[0] + '.png'), combined_result)
