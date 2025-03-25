@@ -74,6 +74,12 @@ Or you can download the checkpoints manually from the following links and place 
     </table>
 
 ### Running
+Before officially running the model, you can run the following command to test if the model is working properly:
+```bash
+bash run_test.sh
+```
+
+After the test is successful, you can run the following command to run the model:
 1. extract video_samples to data:
     ```bash
     bash extract_vid.sh
