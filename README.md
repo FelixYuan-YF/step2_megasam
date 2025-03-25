@@ -87,3 +87,9 @@ Or you can download the checkpoints manually from the following links and place 
    bash run_batch.sh
     ```
 
+### Visualizing
+Run the following command to visualize the output
+```bash
+python viser_batch.py
+```
+
