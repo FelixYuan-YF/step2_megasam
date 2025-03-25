@@ -14,7 +14,7 @@ cd step2_megasam
 ## Instructions for installing dependencies
 ### Python Environment
 
-1.  Add more site-packages to the conda environment created in the previous step: 
+1.  Add more site-packages to the conda environment created in the [previous step](https://github.com/FelixYuan-YF/step1_scoring): 
     ```bash
     conda activate scoring
     pip install -r requirements_megasam.txt
