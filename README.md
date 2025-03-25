@@ -14,7 +14,7 @@ cd step2_megasam
 ## Instructions for installing dependencies
 ### Python Environment
 
-1.  Add more site-packages to the conda environment created in the [previous step](https://github.com/FelixYuan-YF/step1_scoring): 
+1.  Create conda environment similar to the [previous step](https://github.com/FelixYuan-YF/step1_scoring): 
     ```bash
     conda create -n megasam python=3.10.13
     conda activate megasam
