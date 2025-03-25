@@ -23,9 +23,9 @@ if __name__ == "__main__":
         # 'OFE5rR3ubWU__scene-94',
         # 'S6Eql9_pcOw__scene-126'
         # output
-        '_uxlg5ACiT4__scene-56'
+        'test_video'
     ]
-    outputs_dir = 'vid/outputs'
+    outputs_dir = 'test/outputs'
     num_threads = len(ids)
 
     with ProcessPoolExecutor(max_workers=num_threads) as executor:
