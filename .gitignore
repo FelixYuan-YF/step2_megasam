@@ -6,6 +6,7 @@ data/*
 *.zip
 *.ipynb
 data_videos
+!requirements_megasam.txt
 
 # dir
 outputs/
