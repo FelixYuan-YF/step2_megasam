@@ -16,7 +16,8 @@ cd step2_megasam
 
 1.  Add more site-packages to the conda environment created in the [previous step](https://github.com/FelixYuan-YF/step1_scoring): 
     ```bash
-    conda activate scoring
+    conda create -n megasam python=3.10.13
+    conda activate megasam
     pip install -r requirements_megasam.txt
     ```
 
@@ -26,7 +27,7 @@ cd step2_megasam
     python setup.py install
     ```
 
-3. viser: 
+3. viser(not necessary if you only want to run the model):
    ```bash
    cd viser
    pip install -e .
