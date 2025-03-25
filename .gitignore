@@ -16,5 +16,3 @@ checkpoints/*
 !checkpoints/megasam_final.pth
 DROID-SLAM/
 .vscode/
-test/img/*
-test/outputs/*
