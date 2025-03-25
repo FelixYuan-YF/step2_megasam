@@ -4,7 +4,6 @@ data/*
 *.txt
 *.bz2
 *.zip
-*.pth
 *.ipynb
 data_videos
 
