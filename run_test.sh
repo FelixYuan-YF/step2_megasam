@@ -83,7 +83,7 @@ echo -e "\e[33mRunning Optical Flow on evalset\e[0m"
 for seq in ${evalset[@]}; do
   CUDA_VISIBLE_DEVICES=$CUDA_LIST python cvd_opt/preprocess_flow.py \
     --datapath=$DATA_DIR/$seq \
-    --model=cvd_opt/raft-things.pth \
+    --model=checkpoints/raft/raft-things.pth \
     --mixed_precision \
     --cachedir $OUTPUTS_DIR/$seq/cache-flow
 done
