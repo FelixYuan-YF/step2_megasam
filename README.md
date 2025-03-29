@@ -73,7 +73,8 @@ Or you can download the checkpoints manually from the following links and place 
         </tr>
     </table>
 
-+ Raft
++ [Raft](https://github.com/princeton-vl/RAFT?tab=readme-ov-file)
+
 Download the `raft-thing.pth` from [RAFT checkpoint](https://drive.google.com/drive/folders/1sWDsfuZ3Up38EUQt7-JDTT1HcGHuJgvT)
 
 ### Running
