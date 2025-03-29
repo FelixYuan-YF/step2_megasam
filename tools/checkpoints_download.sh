@@ -10,4 +10,4 @@ mkdir -p ./raft/
 wget https://www.dropbox.com/s/4j4z58wuv8o0mfz/raft_tings.pth -O raft/raft_tings.pth # -e "http_proxy=http://127.0.0.1:8087" 
 
 # unidepth
-huggingface-cli download --resume-download lpiccinelli/unidepth-v2-vitl14 --local-dir unimatch-v2
+huggingface-cli download --resume-download lpiccinelli/unidepth-v2-vitl14 --local-dir UniDepth
