@@ -20,7 +20,7 @@ measure_time() {
 }
 
 evalset=(
-  test_video
+  OFE5rR3ubWU__scene-108
 )
 
 WORK_DIR=$(pwd)

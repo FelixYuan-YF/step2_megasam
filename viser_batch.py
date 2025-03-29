@@ -23,7 +23,7 @@ if __name__ == "__main__":
         # 'OFE5rR3ubWU__scene-94',
         # 'S6Eql9_pcOw__scene-126'
         # output
-        'test_video'
+        'OFE5rR3ubWU__scene-108'
     ]
     outputs_dir = 'test/outputs'
     num_threads = len(ids)
