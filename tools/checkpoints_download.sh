@@ -7,7 +7,7 @@ huggingface-cli download --resume-download depth-anything/Depth-Anything-V2-Larg
 
 # raft 
 mkdir -p ./raft/
-wget https://www.dropbox.com/s/4j4z58wuv8o0mfz/raft_things.pth -O raft/raft_things.pth # -e "http_proxy=http://127.0.0.1:8087" 
+wget https://www.dropbox.com/s/4j4z58wuv8o0mfz/raft-things.pth -O raft/raft-things.pth # -e "http_proxy=http://127.0.0.1:8087" 
 
 # unidepth
 huggingface-cli download --resume-download lpiccinelli/unidepth-v2-vitl14 --local-dir UniDepth
