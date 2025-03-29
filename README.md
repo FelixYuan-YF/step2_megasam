@@ -75,7 +75,7 @@ Or you can download the checkpoints manually from the following links and place 
 
 + [Raft](https://github.com/princeton-vl/RAFT?tab=readme-ov-file)
 
-Download the `raft-thing.pth` from [RAFT checkpoint](https://drive.google.com/drive/folders/1sWDsfuZ3Up38EUQt7-JDTT1HcGHuJgvT)
+    Download the `raft-thing.pth` from [RAFT checkpoint](https://drive.google.com/drive/folders/1sWDsfuZ3Up38EUQt7-JDTT1HcGHuJgvT)
 
 ### Running
 Before officially running the model, you can run the following command to test if the model is working properly:
